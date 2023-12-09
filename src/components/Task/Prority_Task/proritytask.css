@@ -1,0 +1,32 @@
+.prority_task_item{
+    border-bottom: 1px solid #e0dcdc;
+}
+.prority_task_checkbox_circle{
+    width: 18px;
+    height: 18px;
+    border-radius: 18px;
+    background-color: transparent;
+    border: 1px solid #524e4e;
+    position: relative;
+}
+.prority_task_checkbox_icon{
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    display: none;
+}
+.prority_task_checkbox_btn:hover .prority_task_checkbox_icon{
+    display: block;
+}
+.prority_task_checkbox_btn:hover .prority_task_checkbox_circle{
+    background-color: #e5dbdb;
+}
+
+.prority_task_edit_btn{
+    display: none;
+}
+.prority_task_item:hover .prority_task_edit_btn{
+    display: block;
+}
+
+

@@ -1,0 +1,16 @@
+.add_task_btn_icon{
+    width: 18px;
+    height: 18px;
+    color: #dc4c3e;
+}
+
+.add_task_btn:hover .add_task_btn_icon{
+    width: 18px;
+    height: 18px;
+    color: white;
+    border-radius: 18px;
+    background-color: #dc4c3e;
+}
+.add_task_btn:hover .add_task_btn_text{
+    color: #dc4c3e;
+}
