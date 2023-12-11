@@ -3,71 +3,79 @@ import AddTask from '../Task/Add_Task/Add_Task';
 import ProrityTask from '../Task/Prority_Task/Prority_Task';
 import { useEffect, useState } from 'react';
 import { Select} from 'antd';
+import { useQuery, gql } from '@apollo/client'
+
+const GET_ALL_TASKS = gql`query AllTasks {
+    task(where: {finished: {_eq: false}}, order_by: {priority_id: asc}) {
+      due_date
+      id
+      description
+      task_name
+      due_time
+      priority_id
+    }
+  }
+  
+`
+
 function Prority(){
+
+    const { data, loading } = useQuery(GET_ALL_TASKS, {
+        onCompleted(data) {
+            setTaskList(data.task)
+        },
+        onError(err) {
+            console.log(err)
+        }
+    });
+
+
     const [taskList,setTaskList] = useState<any>([])
+
     function handleTaskComplete(task_id:number){
         //API
         const newTaskList = taskList.filter((task:any)=>{
-            return task.task_id !== task_id
+            return task.id !== task_id
         })
         setTaskList(newTaskList);
 
     }
-    function handleAddTask(task_id:number,task_name:string, task_desc:string, due_date:any, prority_id:number,labels:any){
-        //API
-        const id =Math.floor(Math.random() * (100 - 3 + 1)) + 3
-        const newtask = {
-            task_id :  id,// id trả về từ API
-            task_name: task_name,
-            task_desc: task_desc,
-            due_date: due_date,
-            prority_id: prority_id,
-            labels_id: labels
-        }
-        const newTaskList = [...taskList,newtask]
-        setTaskList(newTaskList)
-    }
-    function handleEditTask(task_id:number,task_name:string, task_desc:string, due_date:any, prority_id:number,labels:any){
+    function handleAddTask(task_id: number, task_name: string, task_desc: string, due_date: any, priority_id: number, labels: any, due_time: any) {
         //API
         const newtask = {
-            task_id : task_id,
+            id: task_id,
             task_name: task_name,
-            task_desc: task_desc,
+            description: task_desc,
             due_date: due_date,
-            prority_id: prority_id,
-            labels_id: labels
+            priority_id: priority_id,
+            labels_id: labels,
+            due_time: due_time
         }
-        const newTaskList = taskList.map((task:any)=>{
-            return newtask.task_id === task.task_id ? newtask : task
+        const newTaskList = [...taskList, newtask]
+        newTaskList.sort(function(a, b) {
+            return a.priority_id - b.priority_id
         })
         setTaskList(newTaskList)
     }
-    function fetchData(){
+    function handleEditTask(task_id:number,task_name:string, task_desc:string, due_date:any, priority_id:number,labels:any, due_time: any){
         //API
-        const tasks = [
-            {
-                task_id : 1,
-                task_name: 'Do my homework 1',
-                task_desc: "Homework serves as an opportunity for students to reinforce their learning, practice new skills, and demonstrate their understanding",
-                due_date: '',
-                prority_id: 1,
-                labels_id: []
-
-            },
-            {
-                task_id : 2,
-                task_name: 'Do my homework 2',
-                task_desc: "Homework serves as an opportunity for students to reinforce their learning, practice new skills, and demonstrate their understanding",
-                due_date: '',
-                prority_id: 4,
-                labels_id: []
-            }
-        ]
-        setTaskList(tasks)
+        const newtask = {
+            id : task_id,
+            task_name: task_name,
+            description: task_desc,
+            due_date: due_date,
+            priority_id: priority_id,
+            labels_id: labels,
+            due_time: due_time
+        }
+        const newTaskList: Array<any> = taskList.map((task:any)=>{
+            return newtask.id === task.id ? newtask : task
+        })
+        newTaskList.sort(function(a, b) {
+            return a.priority_id - b.priority_id
+        })
+        setTaskList(newTaskList)
     }
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     const handleChangeSelect = (value: string) => {
         const reversedArray = [...taskList].reverse();
@@ -110,6 +118,7 @@ function Prority(){
                     handleAddTask= {handleAddTask}
                 />
             </div>
+            <div style={{height: "1000px"}}></div>
         </div>
     )
 }
