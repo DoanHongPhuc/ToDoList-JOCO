@@ -1,0 +1,7 @@
+node_modules
+.graphqlrc
+yarn-error.log
+src/store
+src/types
+.env
+
