@@ -1,7 +1,7 @@
-import './prority.css'
-import AddTask from '../Task/Add_Task/Add_Task';
-import ProrityTask from '../Task/Prority_Task/Prority_Task';
-import { useEffect, useState } from 'react';
+import './priority.css'
+import AddTask from '../../components/Task/Add_Task/Add_Task';
+import PriorityTask from '../../components/Task/Priority_Task/Priority_Task';
+import { useState } from 'react';
 import { Select} from 'antd';
 import { useQuery, gql } from '@apollo/client'
 
@@ -18,11 +18,12 @@ const GET_ALL_TASKS = gql`query AllTasks {
   
 `
 
-function Prority(){
+function Priority(){
 
-    const { data, loading } = useQuery(GET_ALL_TASKS, {
+    const { data, loading, refetch } = useQuery(GET_ALL_TASKS, {
         onCompleted(data) {
             setTaskList(data.task)
+            refetch()
         },
         onError(err) {
             console.log(err)
@@ -84,10 +85,10 @@ function Prority(){
     
 
     return(
-        <div className="prority_container px-14 w-full flex flex-col items-center">
-            <div className="prority_header flex items-center justify-between pt-12  pb-3">
-                <div className='prority_header_title text-xl font-bold leading-9'>
-                    Prority
+        <div className="priority_container px-14 w-full flex flex-col items-center">
+            <div className="priority_header flex items-center justify-between pt-12  pb-3">
+                <div className='priority_header_title text-xl font-bold leading-9'>
+                    Priority
                 </div>
                 <Select
                 defaultValue="1"
@@ -99,12 +100,12 @@ function Prority(){
                 ]}
                 />
             </div>
-            <div className="prority_body">
-                <div className='prority_tasklist space-y-2'>
+            <div className="priority_body">
+                <div className='priority_tasklist space-y-2'>
                     {
                         taskList.map((task:any,index:any)=>{
                             return(
-                                <ProrityTask 
+                                <PriorityTask 
                                     key = {index}
                                     task ={task}
                                     handleTaskComplete ={handleTaskComplete}
@@ -122,4 +123,4 @@ function Prority(){
         </div>
     )
 }
-export default Prority;
+export default Priority;

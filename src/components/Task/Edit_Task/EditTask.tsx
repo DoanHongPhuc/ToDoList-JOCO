@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './edittask.css'
 import DueDate from '../../DropDown/DueDate/DueDate';
-import ProritySelect from '../../DropDown/Prority/ProritySelect';
+import PrioritySelect from '../../DropDown/Priority/PrioritySelect';
 import LabelSelect from '../../DropDown/Lables/LablesSelect';
 import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
@@ -28,7 +28,7 @@ function TaskEditor(props: any) {
     const [due_date, setDueDate] = useState<string | null>(props.task.due_date)
     const [due_time, setDueTime] = useState<string | null>(props.task.due_time)
     const [priorityId, setpriorityId] = useState<number>(props.task.priority_id? props.task.priority_id : 4)
-    const [labels, setLabels] = useState<number[]>(props.task.labels_id) // list label_id
+    const [labels, setLabels] = useState<number[]>(props.task.labels_id ? props.task.labels_id : []) 
 
     const [editTask, { data: data2, loading: loading2 }] = useMutation(EDIT_TASK_BY_ID, {
         update(_, result) {
@@ -87,7 +87,7 @@ function TaskEditor(props: any) {
         setDueTime(str)
     }
 
-    function onChangePrority(p_id: number) {
+    function onChangePriority(p_id: number) {
         setpriorityId(p_id)
     }
 
@@ -103,7 +103,7 @@ function TaskEditor(props: any) {
     }
 
     return (
-        <form action="" className="task_editor w-full border border-gray-300 rounded mt-1 ">
+        <form action="" className="task_editor w-full border border-gray-300 rounded mt-1 bg-white">
             <div className="task_editor_area pt-2.5 px-2.5">
                 <div className="task_editor_input_field mb-2.5">
                     <div className="task_editor_title_input w-full text-sm font-semibold leading-6">
@@ -115,7 +115,7 @@ function TaskEditor(props: any) {
                 </div>
                 <div className="task_editor_select_area flex space-x-2 mb-3">
                     <DueDate due_date={due_date} onChangeDueDate={onChangeDueDate} due_time={due_time} onChangeDueTime={onChangeDueTime} />
-                    <ProritySelect priority_id={priorityId} onChangePrority={onChangePrority} />
+                    <PrioritySelect priority_id={priorityId} onChangePriority={onChangePriority} />
                     <LabelSelect labelIdSelectList={labels} onChangeLabel={onChangeLabel} />
                 </div>
             </div>

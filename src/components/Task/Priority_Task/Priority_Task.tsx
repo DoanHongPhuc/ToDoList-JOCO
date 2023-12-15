@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './proritytask.css'
+import './prioritytask.css'
 import TaskEditor from '../Edit_Task/EditTask';
 import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
@@ -13,7 +13,7 @@ mutation MyMutation($id: Int!) {
 `
 
 
-function ProrityTask(props: any) {
+function PriorityTask(props: any) {
 
     const [completeTask, { data, loading }] = useMutation(COMPLETE_TASK, {
         update(_, result) {
@@ -30,29 +30,29 @@ function ProrityTask(props: any) {
 
     if (!view) {
         return (
-            <div className="prority_task_item flex pb-4 pt-2 relative">
-                <button className='prority_task_checkbox_btn mr-2 flex items-start mt-1' onClick={() => { CompleteTask(); props.handleTaskComplete(props.task.id) }}>
-                    <div className='prority_task_checkbox_circle'>
-                        <div className='prority_task_checkbox_icon'>
+            <div className="priority_task_item flex pb-4 pt-2 relative">
+                <button className='priority_task_checkbox_btn mr-2 flex items-start mt-1' onClick={() => { CompleteTask(); props.handleTaskComplete(props.task.id) }}>
+                    <div className='priority_task_checkbox_circle'>
+                        <div className='priority_task_checkbox_icon'>
                             <svg width="24" height="24"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
                         </div>
                     </div>
                 </button>
-                <div className='prority_task flex-1'>
-                    <div className="prority_task_title text-sm leading-6">
+                <div className='priority_task flex-1'>
+                    <div className="priority_task_title text-sm leading-6">
                         {props.task.task_name}
                     </div>
-                    <div className="prority_task_desc text-xs text-slate-500 mt-2">
+                    <div className="priority_task_desc text-xs text-slate-500 mt-2">
                         <button id="due_date_btn" className="task_editor_due_date_btn flex  items-center px-1.5 border border-gray-300 rounded text-xs text-gray-500 leading-7">
                             <span className="task_editor_icon mr-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" className="no_due_date text-green-500"><path fill="currentColor" d="M12 2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8zm0 1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1.25 7a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zm.75-5a.5.5 0 1 1 0 1h-7a.5.5 0 0 1 0-1h7z"></path></svg>
                             </span>
-                            {props.task.due_date === '' ? 'Due date' : props.task.due_date}
+                            {props.task.due_date ? props.task.due_date : 'Due date'}
                             {props.task.due_time && ' ' + props.task.due_time.slice(0, -3)}
                         </button>
                     </div>
                 </div>
-                <div className='prority_task_prority flex items-center text-xs'>
+                <div className='priority_task_priority flex items-center text-xs'>
                     {props.task.priority_id === 4 &&
                         <div className="flex items-center">
                             <span className="task_editor_icon mr-1">
@@ -88,7 +88,7 @@ function ProrityTask(props: any) {
                 </div>
 
 
-                <div className="prority_task_edit_btn absolute h-7 w-7 right-3 top-0 hover:bg-gray-100 rounded-md">
+                <div className="priority_task_edit_btn absolute h-7 w-7 right-3 top-0 hover:bg-gray-100 rounded-md">
                     <button onClick={() => { setView(true) }}>
                         <svg width="24" height="24"><g fill="none" fillRule="evenodd"><path fill="currentColor" d="M9.5 19h10a.5.5 0 1 1 0 1h-10a.5.5 0 1 1 0-1z"></path><path stroke="currentColor" d="M4.42 16.03a1.5 1.5 0 0 0-.43.9l-.22 2.02a.5.5 0 0 0 .55.55l2.02-.21a1.5 1.5 0 0 0 .9-.44L18.7 7.4a1.5 1.5 0 0 0 0-2.12l-.7-.7a1.5 1.5 0 0 0-2.13 0L4.42 16.02z"></path></g></svg>
                     </button>
@@ -107,4 +107,4 @@ function ProrityTask(props: any) {
         )
     }
 }
-export default ProrityTask;
+export default PriorityTask;

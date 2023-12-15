@@ -11,7 +11,7 @@ function AddTask(props: any) {
         task_name: '',
         description: '',
         due_date: null,
-        prority_id: 4,
+        priority_id: 4,
         labels_id: null,
         due_time: null
     }

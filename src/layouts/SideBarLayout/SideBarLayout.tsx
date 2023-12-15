@@ -1,7 +1,7 @@
 
-import SideBar from "../../components/SideBar/SideBar";
-import './default.css';
-function DefaultLayout(props:any){
+import SideBar from '../../components/SideBar/SideBar';
+import './sidebarlayout.css';
+function SideBarLayout(props:any){
     return(
         <div className="default_container flex">
             <div className="side_bar_default">
@@ -12,4 +12,4 @@ function DefaultLayout(props:any){
     )
 }
 
-export default DefaultLayout;
+export default SideBarLayout;

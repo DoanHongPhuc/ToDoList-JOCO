@@ -1,8 +1,9 @@
 import './today.css'
-import AddTask from '../Task/Add_Task/Add_Task';
-import TodayTask from '../Task/Today_Task/TodayTask';
+import AddTask from '../../components/Task/Add_Task/Add_Task';
+import TodayTask from '../../components/Task/Today_Task/TodayTask';
 import { useState } from 'react';
 import { useQuery, gql } from '@apollo/client'
+
 
 const GET_ALL_TASKS_TODAY = gql`query AllTasks($due: date) {
     task(where: {finished: {_eq: false}, due_date: {_eq: $due}}) {
@@ -18,22 +19,22 @@ const GET_ALL_TASKS_TODAY = gql`query AllTasks($due: date) {
 
 
 function Today() {
+    const [taskList, setTaskList] = useState<any>([]);
 
     const due = new Date().toISOString().split("T")[0]
 
-    const { data: data, loading: loading } = useQuery(GET_ALL_TASKS_TODAY, {
+    const { data: data, loading: loading,refetch } = useQuery(GET_ALL_TASKS_TODAY, {
         onCompleted(data) {
             setTaskList(data.task)
+            refetch();
         },
         onError(err) {
             console.log(err)
         },
-        variables: { due: due }
+        variables: { due: due },
     });
-
-
-    const [taskList, setTaskList] = useState<any>([]);
-
+    console.log(taskList)
+    
     function handleAddTask(task_id: number, task_name: string, task_desc: string, due_date: any, priority_id: number, labels: any, due_time: any) {
         //API
         const newtask = {
@@ -61,7 +62,6 @@ function Today() {
             labels_id: labels,
             due_time: due_time
         }
-        console.log("today new task: " + newtask)
         let newTaskList = taskList;
         if (newtask.due_date !== due) {
             newTaskList = newTaskList.filter((task: any) => task.id !== newtask.id)
