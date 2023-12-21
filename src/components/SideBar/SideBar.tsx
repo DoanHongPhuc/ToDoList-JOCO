@@ -1,16 +1,26 @@
 import './sidebar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import AddTaskPopup from '../Popup/AddTaskPopup/AddTaskPopup';
+import { useAuth } from '../../context/auth';
+
 function SideBar(props: any) {
 
+    const {user_name, updateToken} = useAuth()
     const [open, setOpen] = useState(true)
+
+    function handleLogout(e: any) {
+        e.preventDefault();
+        updateToken(null, null, null);
+    }
+
     let todayClassname = 'nav-item flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
     let priorityClassname = 'nav-item flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
     let upcomingClassname = 'nav-item flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
     let filtersClassname = 'nav-item flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
+    let searchClassname = 'nav-item flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
     if (props.path === '/') {
         todayClassname = 'nav-item-select flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
     }
@@ -22,6 +32,9 @@ function SideBar(props: any) {
     }
     if (props.path === '/filters&lables') {
         filtersClassname = 'nav-item-select flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
+    }
+    if (props.path === '/search') {
+        searchClassname = 'nav-item-select flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
     }
 
     if (!open) {
@@ -41,8 +54,8 @@ function SideBar(props: any) {
                             <p className="side_bar_avatar flex justify-center items-center ">P</p>
                         </div>
                         <div className="Username flex justify-center items-center">
-                            <p className='flex-1 font-bold leading-6 mr-2'>Phuc Doan</p>
-                            <FontAwesomeIcon className='text-sm' icon={faChevronDown} />
+                            <p className='flex-1 font-bold leading-6 mr-2'>{user_name}</p>
+                            <FontAwesomeIcon className='text-sm' icon={faChevronDown} onClick={handleLogout}/>
                         </div>
                     </div>
                     <div className="Icon flex justify-center items-center">
@@ -56,16 +69,18 @@ function SideBar(props: any) {
                 </div>
             </div>
             <div className="side_bar_body py-1 px-3">
-                <AddTaskPopup/>
+                <AddTaskPopup {...props} />
                 <div className="Nav">
                     <ul>
                         <li>
-                            <div className='nav-item flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'>
-                                <div className='nav-icon text-slate-500'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M16.29 15.584a7 7 0 1 0-.707.707l3.563 3.563a.5.5 0 0 0 .708-.707l-3.563-3.563ZM11 17a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" clipRule="evenodd"></path></svg>
+                            <Link to={'/search'}>
+                                <div className={searchClassname}>
+                                    <div className='nav-icon text-slate-500'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M16.29 15.584a7 7 0 1 0-.707.707l3.563 3.563a.5.5 0 0 0 .708-.707l-3.563-3.563ZM11 17a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" clipRule="evenodd"></path></svg>
+                                    </div>
+                                    <p className='h-6 ml-1.5'> Search</p>
                                 </div>
-                                <p className='h-6 ml-1.5'> Search</p>
-                            </div>
+                            </Link>
                         </li>
                         <li>
                             <Link to={'/priority'}>

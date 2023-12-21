@@ -6,19 +6,23 @@ import LabelSelect from '../../DropDown/Lables/LablesSelect';
 import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 
-const EDIT_TASK_BY_ID = gql`mutation MyMutation($id: Int!, $desc: String, $due_date: date, $due_time: time, $priority_id: Int, $task_name: String) {
-    update_task_by_pk(pk_columns: {id: $id}, _set: {description: $desc, due_date: $due_date, due_time: $due_time, priority_id: $priority_id, task_name: $task_name}) {
+const EDIT_TASK_BY_ID = gql`mutation MyMutation($id: Int!, $desc: String, $due_date: date, $due_time: time, $priority_id: Int, $task_name: String!,  $labels_id: _int4) {
+    update_task_by_pk(pk_columns: {id: $id}, _set: {description: $desc, due_date: $due_date, due_time: $due_time, priority_id: $priority_id, task_name: $task_name, labels_id: $labels_id}) {
       task_name
     }
   }
 `
-const ADD_TASK = gql`mutation MyMutation($desc: String, $due_date: date, $due_time: time, $task_name: String, $priority_id: Int) {
-    insert_task_one(object: {description: $desc, due_date: $due_date, due_time: $due_time, task_name: $task_name, priority_id: $priority_id}) {
+const ADD_TASK = gql`mutation MyMutation($desc: String, $due_date: date, $due_time: time, $task_name: String, $priority_id: Int, $labels_id: _int4, $user_id: Int!) {
+    insert_task_one(object: {description: $desc, due_date: $due_date, due_time: $due_time, task_name: $task_name, priority_id: $priority_id, user_id: $user_id, labels_id: $labels_id}) {
       task_name
       id
     }
   }
 `
+
+function parseArrayToInt4(arr: Array<number>):string {
+    return "{" + arr.join(',') + "}";
+}
 
 function TaskEditor(props: any) {
 
@@ -28,7 +32,7 @@ function TaskEditor(props: any) {
     const [due_date, setDueDate] = useState<string | null>(props.task.due_date)
     const [due_time, setDueTime] = useState<string | null>(props.task.due_time)
     const [priorityId, setpriorityId] = useState<number>(props.task.priority_id? props.task.priority_id : 4)
-    const [labels, setLabels] = useState<number[]>(props.task.labels_id ? props.task.labels_id : []) 
+    const [labelsId, setLabelsId] = useState<number[]>(props.task.labels_id ? props.task.labels_id : []) 
 
     const [editTask, { data: data2, loading: loading2 }] = useMutation(EDIT_TASK_BY_ID, {
         update(_, result) {
@@ -40,7 +44,8 @@ function TaskEditor(props: any) {
             desc: desc,
             due_date: due_date,
             due_time: due_time,
-            priority_id: priorityId
+            priority_id: priorityId,
+            labels_id: labelsId.length > 0 ? parseArrayToInt4(labelsId) : null
         }
     })
     function EditTask() {
@@ -57,7 +62,8 @@ function TaskEditor(props: any) {
             desc: desc,
             due_date: due_date,
             due_time: due_time,
-            priority_id: priorityId
+            priority_id: priorityId,
+            user_id: 2
         }
     })
     function AddTask() {
@@ -66,15 +72,14 @@ function TaskEditor(props: any) {
 
     function handleSubmit(e: any) {
         e.preventDefault();
-        console.log(title, desc, due_date, due_time, priorityId)
         if (props.SubmitString === "Save") {
             EditTask()
-            props.handleSubmitClick(props.task.id, title, desc, due_date, priorityId, labels, due_time);
+            props.handleSubmitClick(props.task.id, title, desc, due_date, priorityId, labelsId, due_time);
             props.handleCancelClick();
         }
         if (props.SubmitString === "Add Task") {
             AddTask()
-            props.handleSubmitClick(newId, title, desc, due_date, priorityId, labels, due_time);
+            props.handleSubmitClick(newId, title, desc, due_date, priorityId, labelsId, due_time);
             props.handleCancelClick();
         }
     }
@@ -86,19 +91,17 @@ function TaskEditor(props: any) {
     function onChangeDueTime(str: string) {
         setDueTime(str)
     }
-
     function onChangePriority(p_id: number) {
         setpriorityId(p_id)
     }
-
     function onChangeLabel(l_id: number) {
-        if (labels.includes(l_id)) {
-            const newLables = labels.filter((label) => { return label !== l_id })
-            setLabels(newLables)
+        if (labelsId.includes(l_id)) {
+            const newLables = labelsId.filter((label) => { return label !== l_id })
+            setLabelsId(newLables)
         }
         else {
-            const newLables = [...labels, l_id]
-            setLabels(newLables)
+            const newLables = [...labelsId, l_id]
+            setLabelsId(newLables)
         }
     }
 
@@ -116,7 +119,7 @@ function TaskEditor(props: any) {
                 <div className="task_editor_select_area flex space-x-2 mb-3">
                     <DueDate due_date={due_date} onChangeDueDate={onChangeDueDate} due_time={due_time} onChangeDueTime={onChangeDueTime} />
                     <PrioritySelect priority_id={priorityId} onChangePriority={onChangePriority} />
-                    <LabelSelect labelIdSelectList={labels} onChangeLabel={onChangeLabel} />
+                    <LabelSelect labelIdSelectList={labelsId} onChangeLabel={onChangeLabel} />
                 </div>
             </div>
             <div className="task_editor_footer flex justify-end space-x-2.5 mt-2 py-2 pl-2 pr-3 border-t border-gray-300">

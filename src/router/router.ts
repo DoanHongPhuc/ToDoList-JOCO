@@ -8,15 +8,20 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import LabelScreen from "../pages/LabelScreen/LabelScreen";
 import FilterScreen from "../pages/FilterScreen/FilterScreen";
-const publicRouter = [
+import SearchScreen from "../pages/SearchScreen/SearchScreen";
+const privateRouter = [
     {path: '/',page: Today,layout: SideBarLayout},
     {path: '/priority',page: Priority, layout: SideBarLayout},
     {path: '/upcoming',page: Upcoming,layout: SideBarLayout},
     {path: '/filters&lables',page: Filter_Label,layout: SideBarLayout},
+    {path: '/filter/:id/:name/:start_date/:end_date',page: FilterScreen,layout: SideBarLayout},
+    {path: '/label/:id/:label_name',page: LabelScreen,layout: SideBarLayout},
+    {path: '/search', page: SearchScreen, layout: SideBarLayout}
+]
+const publicRouter = [
     {path: '/login', page: Login, layout: DefaultLayout},
     {path: '/register', page: Register, layout: DefaultLayout},
-    {path: '/filter/:id/:name/:start_date/:end_date',page: FilterScreen,layout: SideBarLayout},
-    {path: '/label/:label_id/:label_name',page: LabelScreen,layout: SideBarLayout}
 ]
 
-export default publicRouter;
+export {publicRouter};
+export {privateRouter};
