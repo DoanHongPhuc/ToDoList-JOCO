@@ -2,38 +2,40 @@ import './today.css'
 import AddTask from '../../components/Task/Add_Task/Add_Task';
 import TodayTask from '../../components/Task/Today_Task/TodayTask';
 import { useState } from 'react';
-import { useQuery, gql } from '@apollo/client'
+import dayjs from 'dayjs';
+//import { useQuery, gql } from '@apollo/client'
 
 
-const GET_ALL_TASKS_TODAY = gql`query AllTasks($due: date) {
-    task(where: {finished: {_eq: false}, due_date: {_eq: $due}}) {
-      due_date
-      id
-      description
-      task_name
-      due_time
-      priority_id
-    }
-  }
-  `
+// const GET_ALL_TASKS_TODAY = gql`query AllTasks($due: date) {
+//     task(where: {finished: {_eq: false}, due_date: {_eq: $due}}) {
+//       due_date
+//       id
+//       description
+//       task_name
+//       due_time
+//       priority_id
+//     }
+//   }
+//   `
 
 
-function Today() {
-    const [taskList, setTaskList] = useState<any>([]);
+function Today(props: any) {
 
-    const due = new Date().toISOString().split("T")[0]
+    const due = dayjs().format("YYYY-MM-DD")
+    const todayList = props.tasks?.filter((task:any) => task.due_date === due)
 
-    const { data: data, loading: loading,refetch } = useQuery(GET_ALL_TASKS_TODAY, {
-        onCompleted(data) {
-            setTaskList(data.task)
-            refetch();
-        },
-        onError(err) {
-            console.log(err)
-        },
-        variables: { due: due },
-    });
-    console.log(taskList)
+    const [taskList, setTaskList] = useState<any>(todayList);
+
+    // const { data: data, loading: loading,refetch } = useQuery(GET_ALL_TASKS_TODAY, {
+    //     onCompleted(data) {
+    //         setTaskList(data.task)
+    //         refetch();
+    //     },
+    //     onError(err) {
+    //         console.log(err)
+    //     },
+    //     variables: { due: due },
+    // });
     
     function handleAddTask(task_id: number, task_name: string, task_desc: string, due_date: any, priority_id: number, labels: any, due_time: any) {
         //API
@@ -50,6 +52,7 @@ function Today() {
             const newTaskList = [...taskList, newtask]
             setTaskList(newTaskList)
         }
+        props.handleAddTask(task_id, task_name, task_desc, due_date, priority_id, labels, due_time)
     }
     function handleEditTask(task_id: number, task_name: string, task_desc: string, due_date: any, priority_id: number, labels: any, due_time: any) {
         //API
@@ -71,6 +74,7 @@ function Today() {
             })
         }
         setTaskList(newTaskList)
+        props.handleEditTask(task_id, task_name, task_desc, due_date, priority_id, labels, due_time)
     }
     function handleTaskComplete(task_id: number) {
         //API
@@ -78,6 +82,7 @@ function Today() {
             return task.id !== task_id
         })
         setTaskList(newTaskList);
+        props.handleTaskComplete(task_id)
     }
 
 
@@ -91,13 +96,13 @@ function Today() {
                     <div className='task_counter_icon mr-0.5 '>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="siIBvPn"><path fill="currentColor" fillRule="evenodd" d="M8 14.001a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-1a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM5.146 8.147a.5.5 0 0 1 .708 0L7 9.294l3.146-3.147a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 0-.708Z" clipRule="evenodd"></path></svg>
                     </div>
-                    <p>{taskList.length} task</p>
+                    <p>{taskList && taskList.length} task</p>
                 </div>
             </div>
             <div className="today_body">
                 <div className='today_tasklist space-y-2'>
                     {
-                        taskList.map((task: any, index: any) => {
+                        taskList && taskList.map((task: any, index: any) => {
                             return (
                                 <TodayTask
                                     key={index}

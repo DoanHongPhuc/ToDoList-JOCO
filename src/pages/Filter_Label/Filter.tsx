@@ -2,17 +2,28 @@ import { useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus,faChevronDown,faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Filter_Item from '../../components/Filter_Item/Filter_Item';
-import FilterPopup from "../../components/Popup/FilterPopup/FilterPopup";
+import dayjs from "dayjs";
+//import FilterPopup from "../../components/Popup/FilterPopup/FilterPopup";
+
+const today = dayjs()
+const fixFilterList = [
+    {
+        id:1,
+        filter_name: 'Tasks due next week',
+        start_date: today.startOf('week').add(7, 'days').format("YYYY-MM-DD"),
+        end_date: today.endOf('week').add(7, 'days').format('YYYY-MM-DD')
+    },
+    {
+        id: 2,
+        filter_name: 'Task due this week',
+        start_date: today.startOf('week').format("YYYY-MM-DD"),
+        end_date: today.endOf('week').format('YYYY-MM-DD')
+    }
+]
+
 function Filter(){
-    const testList = [
-        {
-            id:1,
-            filter_name: 'Tasks due next week',
-            start_date: '2023-12-14',
-            end_date: '2023-12-17'
-        }
-    ]
-    const [filterlist,setFilterList] = useState<any>(testList)
+
+    const [filterlist,setFilterList] = useState<any>(fixFilterList)
     const [show,setShow] = useState<boolean>(true)
     const numberfilter = filterlist.length
 
@@ -42,12 +53,12 @@ function Filter(){
             </div>
             <div className="filter_header flex items-center border-b border-gray-300">
                 <h2 className='filter_title flex-1 py-1.5 pr-7 mr-0.5 text-sm font-semibold'>Filters</h2>
-                <div className='add_filter_area'>
+                {/* <div className='add_filter_area'>
                     <FilterPopup
                         type = {'add'} 
                         handleSubmit = {handleAddFilter}
                     />
-                </div>
+                </div> */}
             </div>
             {
                 show &&
@@ -60,9 +71,10 @@ function Filter(){
                         :
                         <div>
                             {
-                                filterlist.map((filter:any)=>{
+                                filterlist.map((filter:any, index: any)=>{
                                     return(
                                         <Filter_Item
+                                            key={index}
                                             filter = {filter}
                                             handleSubmit = {handleEditFilter}
                                             handleDelFilter = {handleDelFilter}

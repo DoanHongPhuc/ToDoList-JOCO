@@ -3,35 +3,34 @@ import AddTask from '../../components/Task/Add_Task/Add_Task';
 import PriorityTask from '../../components/Task/Priority_Task/Priority_Task';
 import { useState } from 'react';
 import { Select} from 'antd';
-import { useQuery, gql } from '@apollo/client'
+//import { useQuery, gql } from '@apollo/client'
 
-const GET_ALL_TASKS = gql`query AllTasks {
-    task(where: {finished: {_eq: false}}, order_by: {priority_id: asc}) {
-      due_date
-      id
-      description
-      task_name
-      due_time
-      priority_id
-    }
-  }
-  
-`
+// const GET_ALL_TASKS = gql`query AllTasks($userId: Int!) {
+//     task(where: {user_id: {_eq: $userId },finished: {_eq: false}}, order_by: {priority_id: asc}) {
+//       due_date
+//       id
+//       description
+//       task_name
+//       due_time
+//       priority_id
+//     }
+//   }
+// `
 
-function Priority(){
+function Priority(props: any){
 
-    const { data, loading, refetch } = useQuery(GET_ALL_TASKS, {
-        onCompleted(data) {
-            setTaskList(data.task)
-            refetch()
-        },
-        onError(err) {
-            console.log(err)
-        }
-    });
+    // const { data, loading, refetch } = useQuery(GET_ALL_TASKS, {
+    //     onCompleted(data) {
+    //         setTaskList(data.task)
+    //         refetch()
+    //     },
+    //     onError(err) {
+    //         console.log(err)
+    //     }
+    // });
+    const priorityList = props.tasks.map((task: any) => ({ ...task })).sort((a: any, b: any) => a.priority_id - b.priority_id);
 
-
-    const [taskList,setTaskList] = useState<any>([])
+    const [taskList,setTaskList] = useState<any>(priorityList)
 
     function handleTaskComplete(task_id:number){
         //API
@@ -39,6 +38,7 @@ function Priority(){
             return task.id !== task_id
         })
         setTaskList(newTaskList);
+        props.handleTaskComplete(task_id)
 
     }
     function handleAddTask(task_id: number, task_name: string, task_desc: string, due_date: any, priority_id: number, labels: any, due_time: any) {
@@ -52,11 +52,12 @@ function Priority(){
             labels_id: labels,
             due_time: due_time
         }
-        const newTaskList = [...taskList, newtask]
+        let newTaskList = [...taskList, newtask]
         newTaskList.sort(function(a, b) {
             return a.priority_id - b.priority_id
         })
         setTaskList(newTaskList)
+        props.handleAddTask(task_id, task_name, task_desc, due_date, priority_id, labels, due_time)
     }
     function handleEditTask(task_id:number,task_name:string, task_desc:string, due_date:any, priority_id:number,labels:any, due_time: any){
         //API
@@ -76,6 +77,7 @@ function Priority(){
             return a.priority_id - b.priority_id
         })
         setTaskList(newTaskList)
+        props.handleEditTask(task_id, task_name, task_desc, due_date, priority_id, labels, due_time)
     }
 
     const handleChangeSelect = (value: string) => {
