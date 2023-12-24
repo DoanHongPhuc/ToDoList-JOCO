@@ -32,7 +32,7 @@ function Login() {
             const result = await signin({ variables: { mail: email, password: password } })
             if (result.data.signin.statusCode !== 200) { toast.error(result.data.signin.message) }
             if (result.data.signin.statusCode === 200) {
-                updateToken(result.data.signin.token, result.data.signin.id, result.data.signin.user_name)
+                updateToken(result.data.signin.token, result.data.signin.id, result.data.signin.user_name,email)
                 navigate("/")
             }
         } catch (e) {

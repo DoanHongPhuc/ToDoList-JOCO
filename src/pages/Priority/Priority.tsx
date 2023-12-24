@@ -31,6 +31,15 @@ function Priority(props: any){
     const priorityList = props.tasks.map((task: any) => ({ ...task })).sort((a: any, b: any) => a.priority_id - b.priority_id);
 
     const [taskList,setTaskList] = useState<any>(priorityList)
+    const defaultTask = {
+        task_id: 0,
+        task_name: '',
+        description: '',
+        due_date: null,
+        priority_id: 4,
+        labels_id: null,
+        due_time: null
+    }
 
     function handleTaskComplete(task_id:number){
         //API
@@ -119,6 +128,7 @@ function Priority(props: any){
                 </div>
                 <AddTask
                     handleAddTask= {handleAddTask}
+                    defaultTask = {defaultTask}
                 />
             </div>
             <div style={{height: "1000px"}}></div>

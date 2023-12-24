@@ -22,8 +22,9 @@ const GET_ALL_USER_TASK = gql`query MyQuery($userId: Int!) {
 `
 
 function App() {
-  const [taskList, setTaskList] = useState<any>();
+  const [taskList, setTaskList] = useState<any>([]);
   const { userId } = useAuth()
+  console.log(taskList)
 
   const { data: data, loading: loading, refetch } = useQuery(GET_ALL_USER_TASK, {
     variables: {
@@ -37,6 +38,7 @@ function App() {
       console.log(error)
     }
   });
+
 
   if (loading && !data) return <h2>Loading...</h2>
 
@@ -57,6 +59,8 @@ function App() {
   }
   function handleEditTask(task_id: number, task_name: string, task_desc: string, due_date: any, priority_id: number, labels: any, due_time: any) {
     //API
+    refetch()
+    console.log(task_name,due_date)
     const newtask = {
       id: task_id,
       task_name: task_name,
@@ -66,11 +70,11 @@ function App() {
       labels_id: labels,
       due_time: due_time
     }
-    const newTaskList = taskList.map((task: any) => {
-      return newtask.id === task.id ? newtask : task
-    })
-    setTaskList(newTaskList)
-    refetch()
+    setTaskList((taskList:any) => {
+      return taskList.map((task: any) => {
+        return newtask.id === task.id ? newtask : task;
+      });
+    });
   }
   function handleTaskComplete(task_id: number) {
     //API
@@ -88,7 +92,7 @@ function App() {
           <AuthGuard>
             <Routes>
               {
-                taskList && privateRouter.map((route, index) => {
+                privateRouter.map((route, index) => {
                   const Layout = route.layout
                   const Page = route.page
                   return (
@@ -96,7 +100,7 @@ function App() {
                       key={index}
                       path={route.path}
                       element={
-                        <Layout path={route.path} handleAddTask={handleAddTask} >
+                        <Layout path={route.path} handleAddTask={handleAddTask} clearCache = {refetch}>
                           <Page
                             tasks={taskList}
                             handleAddTask={handleAddTask}
