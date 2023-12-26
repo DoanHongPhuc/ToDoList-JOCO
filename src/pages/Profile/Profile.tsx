@@ -99,8 +99,7 @@ function Profile(props: any) {
         onError(err) {
             console.log(err)
             toast.error("Error!!!")
-        },
-        variables: { id: id, avatar: A }
+        }
     })
 
     function handleSaveName() {
@@ -130,7 +129,6 @@ function Profile(props: any) {
     async function handleSaveAvatar(e: any) {
         e.preventDefault()
         try {
-            let imgURL;
             if (uploadImg && ["image/png", "image/jpeg", "image/jpg"].includes(uploadImg.type)) {
                 const formData = new FormData()
                 formData.append("file", uploadImg)
@@ -140,7 +138,7 @@ function Profile(props: any) {
                 const jsonRes = await response.json()
                 setA(jsonRes.url.toString())
                 //update on db
-                changeUserAvatar()
+                const updateDb = await changeUserAvatar({ variables: {id: id, avatar: jsonRes.url.toString()}})
                 setEditImg(false)
             }
         } catch (error) {
