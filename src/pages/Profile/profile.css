@@ -6,5 +6,17 @@
     width: 100%;
     max-width: 800px;
 }
+.profile_avatar_image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 999px;
+}
+.profile_image_preview {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 999px;
+}
 
 

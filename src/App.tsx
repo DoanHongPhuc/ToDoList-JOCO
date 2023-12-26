@@ -24,7 +24,7 @@ const GET_ALL_USER_TASK = gql`query MyQuery($userId: Int!) {
 function App() {
   const [taskList, setTaskList] = useState<any>([]);
   const { userId } = useAuth()
-  console.log(taskList)
+  //console.log(taskList)
 
   const { data: data, loading: loading, refetch } = useQuery(GET_ALL_USER_TASK, {
     variables: {
@@ -60,7 +60,7 @@ function App() {
   function handleEditTask(task_id: number, task_name: string, task_desc: string, due_date: any, priority_id: number, labels: any, due_time: any) {
     //API
     refetch()
-    console.log(task_name,due_date)
+    //console.log(task_name,due_date)
     const newtask = {
       id: task_id,
       task_name: task_name,

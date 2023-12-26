@@ -26,3 +26,9 @@
 .nav-item-select{
     background-color: #fee6e3;
 }
+.avatar__image {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    object-fit: cover;
+}
