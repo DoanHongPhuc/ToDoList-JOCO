@@ -10,6 +10,7 @@ import { useAuth } from '../../context/auth';
 function SideBar(props: any) {
 
     const { user_name, updateToken, avatar } = useAuth()
+    console.log(avatar)
     const [open, setOpen] = useState(true)
     const Avatar: string = user_name?.charAt(0) ? user_name?.charAt(0).toLocaleUpperCase() : 'P'
 

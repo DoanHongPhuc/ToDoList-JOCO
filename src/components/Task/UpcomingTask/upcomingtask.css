@@ -1,5 +1,5 @@
 .Upcoming_task_item{
-    border-bottom: 1px solid #e0dcdc;
+    min-height: 70px;
 }
 .Upcoming_task_checkbox_circle{
     width: 18px;
@@ -22,9 +22,9 @@
     background-color: #e5dbdb;
 }
 
-.Upcoming_task_edit_btn{
+/* .Upcoming_task_edit_btn{
     display: none;
-}
+} */
 .Upcoming_task_item:hover .Upcoming_task_edit_btn{
     display: block;
 }

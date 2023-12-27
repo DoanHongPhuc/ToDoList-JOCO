@@ -92,10 +92,6 @@ function Profile(props: any) {
         variables: { id: userId, password: PW }
     })
     const [changeUserAvatar] = useMutation(CHANGE_AVATAR, {
-        update(_, result) {
-            toast.success("You changed your avatar")
-            updateToken(token, id, user_name, user_email, A)
-        },
         onError(err) {
             console.log(err)
             toast.error("Error!!!")
@@ -139,6 +135,10 @@ function Profile(props: any) {
                 setA(jsonRes.url.toString())
                 //update on db
                 const updateDb = await changeUserAvatar({ variables: {id: id, avatar: jsonRes.url.toString()}})
+                if(!updateDb.errors) {
+                    toast.success("You sucessfully upload image")
+                    updateToken(token, id, user_name, user_email, jsonRes.url.toString())
+                }
                 setEditImg(false)
             }
         } catch (error) {

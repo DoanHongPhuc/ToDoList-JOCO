@@ -1,5 +1,4 @@
 import { useDrag } from 'react-dnd'
-import dayjs from 'dayjs'
 import { gql, useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
@@ -13,7 +12,7 @@ const EDIT_TASK_BY_ID = gql`mutation MyMutation($id: Int!, $desc: String, $due_d
 }
 `
 function MovableItem(props:any) {
-  const [task_id,setTaskId] = useState<any>(props.task.id)
+  const [task,setTask] = useState<any>(props.task)
   const [editTask, { data: data2, loading: loading2 }] = useMutation(EDIT_TASK_BY_ID, {
     update(_, result) {
         toast.info("You edited task " + props.task.task_name )
@@ -48,11 +47,11 @@ function MovableItem(props:any) {
         handlerId: monitor.getHandlerId(),
         
       }),
-    }),[task_id])
+    }),[task])
     const opacity = isDragging ? 0.4 : 1;
     const cursor = isDragging ? 'grabbing': 'pointer'
     useEffect(() => {
-      setTaskId(props.task.id)
+      setTask(props.task)
     }, [props]);
   return (
       <div className="movableItem_Box hover:cursor-pointer relative" ref={drag} style={{ opacity, cursor }}>

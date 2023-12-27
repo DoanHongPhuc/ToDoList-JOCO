@@ -1,4 +1,5 @@
 import { useDrop } from "react-dnd"
+import UpcomingTask from "../Task/UpcomingTask/UpcomingTask";
 import TodayTask from "../../components/Task/Today_Task/TodayTask";
 import MovableItem from "../../components/DragAndDrop/MovableItem";
 import AddTask from "../../components/Task/Add_Task/Add_Task";
@@ -25,15 +26,15 @@ function TaskColumn(props:any){
           <div className="upcoming_item_header h-11 flex items-center">
               <p className="text-sm font-semibold leading-12">{colData.headerColTilte}</p>
           </div>
-          <div className="upcoming_item_body space-y-3">
+          <div className="upcoming_item_body space-y-4">
             {
-              isOver && <div className="upcoming_task_boxshadow h-16 w-full rounded-lg bg-gray-300/[0.4]"></div>
+              isOver && <div className="upcoming_task_boxshadow h-24 w-full rounded-lg bg-gray-300/[0.4]"></div>
             }
               {
                   colData.taskList.map((task:any)=>{
                       return(
                           <MovableItem task = {task} handleEditTask = {props.handleEditTask}>
-                              <TodayTask
+                              <UpcomingTask
                               key={task.id}
                               task={task}
                               handleEditTask={props.handleEditTask}

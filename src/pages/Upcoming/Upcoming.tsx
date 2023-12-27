@@ -93,7 +93,7 @@ function Upcoming(props:any){
             </div>
             
             <div className="upcoming_body w-full h-full px-12 pt-10 pb-2 overflow-x-auto">
-                <div className="flex gap-2 w-max h-full">
+                <div className="flex gap-6 w-max h-full">
                     <DndProvider backend={HTML5Backend}>
                     {
                         colData.map((col,index)=>{
