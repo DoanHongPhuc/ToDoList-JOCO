@@ -14,6 +14,7 @@ const SIGN_IN_MUTATION = gql`mutation MyMutation($mail: String!, $password: Stri
       message
       id
       user_name
+      avatar
     }
   }  
 `
@@ -32,7 +33,7 @@ function Login() {
             const result = await signin({ variables: { mail: email, password: password } })
             if (result.data.signin.statusCode !== 200) { toast.error(result.data.signin.message) }
             if (result.data.signin.statusCode === 200) {
-                updateToken(result.data.signin.token, result.data.signin.id, result.data.signin.user_name)
+                updateToken(result.data.signin.token, result.data.signin.id, result.data.signin.user_name,email,result.data.signin.avatar)
                 navigate("/")
             }
         } catch (e) {

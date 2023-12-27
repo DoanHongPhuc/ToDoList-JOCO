@@ -9,6 +9,7 @@ import Register from "../pages/Register/Register";
 import LabelScreen from "../pages/LabelScreen/LabelScreen";
 import FilterScreen from "../pages/FilterScreen/FilterScreen";
 import SearchScreen from "../pages/SearchScreen/SearchScreen";
+import Profile from "../pages/Profile/Profile";
 const privateRouter = [
     {path: '/',page: Today,layout: SideBarLayout},
     {path: '/priority',page: Priority, layout: SideBarLayout},
@@ -16,7 +17,8 @@ const privateRouter = [
     {path: '/filters&lables',page: Filter_Label,layout: SideBarLayout},
     {path: '/filter/:id/:name/:start_date/:end_date',page: FilterScreen,layout: SideBarLayout},
     {path: '/label/:id/:label_name',page: LabelScreen,layout: SideBarLayout},
-    {path: '/search', page: SearchScreen, layout: SideBarLayout}
+    {path: '/search', page: SearchScreen, layout: SideBarLayout},
+    {path: '/profile', page: Profile, layout: SideBarLayout}
 ]
 const publicRouter = [
     {path: '/login', page: Login, layout: DefaultLayout},

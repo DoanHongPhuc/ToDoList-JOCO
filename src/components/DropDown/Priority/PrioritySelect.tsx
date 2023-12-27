@@ -19,7 +19,7 @@ function  PrioritySelect(props:any) {
     }
     return (
         <div className="task_editor_priority relative">
-            <button onClick={(e)=>{e.preventDefault(); setIsVisible(!isVisible)}} id="task_editor_priority_btn" className="task_editor_priority_btn px-1.5 border border-gray-300 rounded text-xs text-gray-500 leading-7 hover:bg-gray-100">
+            <button onClick={(e)=>{e.preventDefault(); setIsVisible(!isVisible)}} id="task_editor_priority_btn" className="task_editor_priority_btn px-1.5 border border-gray-300 rounded text-xs text-gray-500 leading-7 hover:bg-gray-100 h-8">
                 {props.priority_id === 4 &&
                     <div className="flex items-center">
                         <span className="task_editor_icon mr-1">
