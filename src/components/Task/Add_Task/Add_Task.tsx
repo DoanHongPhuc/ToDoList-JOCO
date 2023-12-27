@@ -6,7 +6,7 @@ import TaskEditor from '../Edit_Task/EditTask';
 function AddTask(props: any) {
     const [view, setView] = useState<boolean>(false)
 
-    const defaultValue = {
+    const defaultTask = {
         task_id: 0,
         task_name: '',
         description: '',
@@ -33,7 +33,7 @@ function AddTask(props: any) {
                 SubmitString='Add Task'
                 handleCancelClick={() => { setView(false) }}
                 handleSubmitClick={props.handleAddTask}
-                task={defaultValue}
+                task={props.defaultTask}
             />
         )
     }

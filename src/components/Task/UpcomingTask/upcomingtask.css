@@ -1,0 +1,32 @@
+.Upcoming_task_item{
+    min-height: 70px;
+}
+.Upcoming_task_checkbox_circle{
+    width: 18px;
+    height: 18px;
+    border-radius: 18px;
+    background-color: transparent;
+    border: 1px solid #524e4e;
+    position: relative;
+}
+.Upcoming_task_checkbox_icon{
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    display: none;
+}
+.Upcoming_task_checkbox_btn:hover .Upcoming_task_checkbox_icon{
+    display: block;
+}
+.Upcoming_task_checkbox_btn:hover .Upcoming_task_checkbox_circle{
+    background-color: #e5dbdb;
+}
+
+/* .Upcoming_task_edit_btn{
+    display: none;
+} */
+.Upcoming_task_item:hover .Upcoming_task_edit_btn{
+    display: block;
+}
+
+

@@ -4,16 +4,19 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import AddTaskPopup from '../Popup/AddTaskPopup/AddTaskPopup';
+import UserSelect from '../DropDown/User/UserSelect';
 import { useAuth } from '../../context/auth';
 
 function SideBar(props: any) {
 
-    const {user_name, updateToken} = useAuth()
+    const { user_name, updateToken, avatar } = useAuth()
+    console.log(avatar)
     const [open, setOpen] = useState(true)
+    const Avatar: string = user_name?.charAt(0) ? user_name?.charAt(0).toLocaleUpperCase() : 'P'
 
     function handleLogout(e: any) {
         e.preventDefault();
-        updateToken(null, null, null);
+        updateToken(null, null, null, null, null);
     }
 
     let todayClassname = 'nav-item flex items-center w-full p-1.5 p-1 text-base font-medium py-2 rounded-md'
@@ -50,12 +53,18 @@ function SideBar(props: any) {
             <div className="header_container">
                 <div className="header flex p-3 justify-between">
                     <div className="User flex justify-center items-center border border-transparent pl-1.5 pr-3">
-                        <div className="Avatar mr-3">
-                            <p className="side_bar_avatar flex justify-center items-center ">P</p>
-                        </div>
+                        {
+                            avatar ? (
+                                <img src={avatar} alt="user avatar" className='avatar__image mr-3'/>
+                            ) : (
+                                <div className="Avatar mr-3">
+                                    <p className="side_bar_avatar flex justify-center items-center ">{Avatar}</p>
+                                </div>
+                            )
+                        }
                         <div className="Username flex justify-center items-center">
                             <p className='flex-1 font-bold leading-6 mr-2'>{user_name}</p>
-                            <FontAwesomeIcon className='text-sm' icon={faChevronDown} onClick={handleLogout}/>
+                            <UserSelect handleLogout={handleLogout} />
                         </div>
                     </div>
                     <div className="Icon flex justify-center items-center">
@@ -73,7 +82,7 @@ function SideBar(props: any) {
                 <div className="Nav">
                     <ul>
                         <li>
-                            <Link to={'/search'}>
+                            <Link to={'/search'} onClick={() => { props.clearCache() }}>
                                 <div className={searchClassname}>
                                     <div className='nav-icon text-slate-500'>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M16.29 15.584a7 7 0 1 0-.707.707l3.563 3.563a.5.5 0 0 0 .708-.707l-3.563-3.563ZM11 17a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z" clipRule="evenodd"></path></svg>
@@ -83,7 +92,7 @@ function SideBar(props: any) {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/priority'}>
+                            <Link to={'/priority'} onClick={() => { props.clearCache() }}>
                                 <div className={priorityClassname}>
                                     <div className='nav-icon text-blue-500'>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" className="D0nCgYmq4STarYo9rnCpwQAAO8riDGKd"><path fill="currentColor" fillRule="evenodd" d="M8.062 4h7.876a2 2 0 0 1 1.94 1.515l2.062 8.246c.04.159.06.322.06.486V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3.754a2 2 0 0 1 .06-.485L6.12 5.515A2 2 0 0 1 8.061 4Zm0 1a1 1 0 0 0-.97.758L5.03 14.004a1 1 0 0 0-.03.242V18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.754a.997.997 0 0 0-.03-.242L16.91 5.758a1 1 0 0 0-.97-.758H8.061Zm6.643 10a2.75 2.75 0 0 1-5.41 0H7a.5.5 0 1 1 0-1h2.75a.5.5 0 0 1 .5.5 1.75 1.75 0 1 0 3.5 0 .5.5 0 0 1 .5-.5H17a.5.5 0 0 1 0 1h-2.295Z" clipRule="evenodd"></path></svg>
@@ -93,7 +102,7 @@ function SideBar(props: any) {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/'}>
+                            <Link to={'/'} onClick={() => { props.clearCache() }}>
                                 <div className={todayClassname}>
                                     <div className='nav-icon text-emerald-500'>
                                         <svg width={24} height={24} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M20 6.00049C20 4.89592 19.1046 4.00049 18 4.00049H6C4.89543 4.00049 4 4.89592 4 6.00049V18.0005C4 19.1051 4.89543 20.0005 6 20.0005H18C19.1046 20.0005 20 19.1051 20 18.0005V6.00049ZM17 8.00049C17.2761 8.00049 17.5 8.22435 17.5 8.50049C17.5 8.77663 17.2761 9.00049 17 9.00049H7C6.72386 9.00049 6.5 8.77663 6.5 8.50049C6.5 8.22435 6.72386 8.00049 7 8.00049H17Z" fill="currentColor" /><text fontFamily="-apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'" fontSize={9} transform="translate(4 2)" fontWeight={500} style={{ fill: 'var(--product-library-navbar-selected-fill)' }}><tspan x={8} y={15} textAnchor="middle">08</tspan></text></svg>
@@ -103,7 +112,7 @@ function SideBar(props: any) {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/upcoming'}>
+                            <Link to={'/upcoming'} onClick={() => { props.clearCache() }}>
                                 <div className={upcomingClassname}>
                                     <div className='nav-icon text-gray-700'>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" className="R7GJRAgqX85M4uldYGrsUgwgfQYp8IrP"><path fill="currentColor" fillRule="evenodd" d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H6Zm10 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm-3-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-5 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm9-5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-5 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm-3-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7 8a.5.5 0 0 0 0 1h10a.5.5 0 0 0 0-1H7Z" clipRule="evenodd"></path></svg>
@@ -113,7 +122,7 @@ function SideBar(props: any) {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/filters&lables'}>
+                            <Link to={'/filters&lables'} onClick={() => { props.clearCache() }}>
                                 <div className={filtersClassname}>
                                     <div className='nav-icon text-amber-700'>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" className="NAFqZpweVv2qW6PZaB6UegeDrhQeAToS"><path fill="currentColor" fillRule="evenodd" d="M17.5 6.001h-3a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5Zm-3-1a1.5 1.5 0 0 0-1.5 1.5v3a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5v-3a1.5 1.5 0 0 0-1.5-1.5h-3Zm-8 9h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm-1.5.5a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5v-3Zm9.5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm-1.5.5a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5v-3Zm-6.5-8.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5Zm-1.5.5a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5v-3Z" clipRule="evenodd"></path></svg>
