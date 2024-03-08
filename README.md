@@ -1,5 +1,13 @@
 # ToDoList-JOCO
-## Overview
+<p>
+    <a href="https://www.typescriptlang.org/" target="blank_"><img alt="Tyscript" src="https://img.shields.io/badge/typescript-4.4.2-blue" /></a>
+    <a href="https://tailwindcss.com/" target="blank_"><img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-0.78.0-yellowgreen" /></a>
+    <a href="https://reactjs.org/" target="blank_"><img alt="bigquery" src="https://img.shields.io/badge/ReactJs-18.2.0-red" /></a>
+</p>
+<p align="center">
+<img src="./assets/Logo.png" alt="Todolist app logo" width="225" height="225" class="center">
+</p>
+# Overview
 ## Installation
 ```bash
 $ yarn install
