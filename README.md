@@ -7,6 +7,7 @@
 <p align="center">
 <img src="./assets/Logo.png" alt="Todolist app logo" width="470" height="220" class="center">
 </p>
+
 # Overview
 A Web App is a product created for learning purposes. It allows users to take notes and manage their tasks on a daily basis.
 - Today
