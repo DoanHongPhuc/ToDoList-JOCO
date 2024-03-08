@@ -10,12 +10,28 @@
 
 # Overview
 A Web App is a product created for learning purposes. It allows users to take notes and manage their tasks on a daily basis.
-- Today
+- Today screen
 ![Today Screen overview](./assets/Today.png)
     - Create new task (Task_name, Description,Due Time, Priority, Label)
     - Edit task
     - Check Task
     - Delete Task
+- Priority Screen
+![Priority Screen overview](./assets/Priority.png)
+    - Sort tasks by priority.
+- Upcoming Screen
+![Upcoming Screen overview](./assets/Upcoming.png)
+    - List of tasks by week.
+    - Drag and drop to change the due time.
+- Filter&Label screen
+![Filter&Label Screen overview](./assets/Filter.png)
+    - List of Filters
+    - List of Label (create new label, Edit label, Delete)
+    - View all tasks that contain a specific label.
+
+## Demo Video
+Please visit this link to see the [demo video](https://drive.google.com/file/d/11RCnfczRA4IbGqzno4q2ckN9A8Z8ivRv/view?usp=sharing).
+
 ## Installation
 ```bash
 $ yarn install
