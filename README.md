@@ -5,9 +5,16 @@
     <a href="https://reactjs.org/" target="blank_"><img alt="bigquery" src="https://img.shields.io/badge/ReactJs-18.2.0-red" /></a>
 </p>
 <p align="center">
-<img src="./assets/Logo.png" alt="Todolist app logo" width="325" height="225" class="center">
+<img src="./assets/Logo.png" alt="Todolist app logo" width="470" height="220" class="center">
 </p>
 # Overview
+A Web App is a product created for learning purposes. It allows users to take notes and manage their tasks on a daily basis.
+- Today
+![Today Screen overview](./assets/Today.png)
+    - Create new task (Task_name, Description,Due Time, Priority, Label)
+    - Edit task
+    - Check Task
+    - Delete Task
 ## Installation
 ```bash
 $ yarn install
